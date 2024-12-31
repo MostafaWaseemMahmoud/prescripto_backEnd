@@ -35,7 +35,7 @@ app.get("/", async (req, res) => {
         })
         await page.save()
         res.status(201).send("Server Working Successfully And Page Added Successfully");
-        console.log("Server Working Successfully And Page Added Successfully");
+        console.log("Server Working Successfully And Page Added Successfully HI");
         
     }catch(e) {
         res.send("Error while adding Page data" , e);
