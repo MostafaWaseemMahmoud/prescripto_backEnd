@@ -166,25 +166,16 @@ router.post("/denyappoiment/:doctorid/:appoimentid", async (req, res) => {
 });
 
 // Mark patient as done
-router.post("/donepatient/:doctorid/:patientid", async (req, res) => {
-    const { doctorid, patientid } = req.params;
+
+router.get("/admin", async (req, res) => {
     try {
-        const doctor = await DoctorSchema.findById(doctorid);
-        if (!doctor) {
-            return res.status(404).send("Doctor not found");
+        const admin = await AdminSchema.find();
+        if (!admin) {
+            return res.status(404).send("Admin not found");
         }
-
-        const patientIndex = doctor.appoiments.findIndex(patient => patient._id.toString() === patientid);
-        if (patientIndex === -1) {
-            return res.status(404).send("Patient not found in appointments");
-        }
-
-        doctor.appoiments.splice(patientIndex, 1);
-        await doctor.save();
-        return res.status(200).send("Patient successfully marked as done");
+            res.status(200).send(admin);
     } catch (e) {
-        return res.status(500).send("Error while marking patient as done: " + e.message);
+        return res.status(500).send("Error while getingadmin as done: " + e.message);
     }
 });
-
 module.exports = router;
