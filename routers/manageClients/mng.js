@@ -120,15 +120,15 @@ router.post('/disagreedoctor/:doctorid', async (req, res) => {
             `,
           };
         
+          await admin.save();
+            transporter.sendMail(mailOptions, (err, info) => {
+              if (err) {
+                console.log('Error:', err);
+              } else {
+                console.log('Email sent:', info.response);
+              }
+            });
         admin.doctors.splice(doctorIndex, 1);
-        await admin.save();
-          transporter.sendMail(mailOptions, (err, info) => {
-            if (err) {
-              console.log('Error:', err);
-            } else {
-              console.log('Email sent:', info.response);
-            }
-          });
         return res.status(200).send("Doctor removed successfully");
     } catch (e) {
         return res.status(500).send("Error while removing doctor: " + e.message);
@@ -188,6 +188,26 @@ router.post("/acceptappoiment/:doctorid/:appoimentid", async (req, res) => {
         const patient = doctor.waitingappoiments[patientIndex];
         doctor.waitingappoiments.splice(patientIndex, 1);
         doctor.appoiments.push(patient);
+        const mailOptions = {
+            from: email,  // Your Gmail address
+            to: "mostafawaseem88@gmail.com", // Recipient's email address
+            subject: "Doctor Has Accepted Your Appoinment Book",              // Subject of the email
+            text: `
+            HI My Name Is: ${patient.username}, 
+            ----------------------------------
+            Dr.${doctor.username}, Has Accepted Your Appoinment book
+            ----------------------------------
+            Please Call Him Now On ${doctor.phonenumber} 
+            `,
+          };
+        
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+              console.log('Error:', err);
+            } else {
+              console.log('Email sent:', info.response);
+            }
+          });
         await doctor.save();
 
         return res.status(201).send("Appointment accepted by the doctor");
