@@ -108,11 +108,11 @@ router.post('/doctor', upload.single('profilePic'), async (req, res) => {
       const mailOptions = {
         from: email,  // Your Gmail address
         to: "mostafawaseem88@gmail.com", // Recipient's email address
-        subject: "Doctor Job Needed From Hospital System",              // Subject of the email
+        subject: "Doctor Job Needed From Priscripto System",              // Subject of the email
         text: `
         HI My Name Is: ${doctor.username}, 
         ----------------------------------
-        and My Age Is: ${doctor.age}, 
+        and My Old As A Doctor: ${doctor.age}, 
         ----------------------------------
         and My Job Is: ${doctor.job}, 
         ----------------------------------
@@ -120,7 +120,9 @@ router.post('/doctor', upload.single('profilePic'), async (req, res) => {
         ----------------------------------
         and My phonenumber Is: ${doctor.phonenumber},
         ----------------------------------
-        And I Well Be So Happy To Join Your Online Hospital System Pls 
+        and Live In: ${doctor.location},
+        ----------------------------------
+        And I Well Be So Happy To Join Your Priscripto System 
         `,
       };
     
