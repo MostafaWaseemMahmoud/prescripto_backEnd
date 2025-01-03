@@ -63,8 +63,8 @@ router.post('/acceptdoctor/:doctorid', async (req, res) => {
         const newDoctor = new DoctorSchema(doctor);
         await newDoctor.save();
         const mailOptions = {
-            from: email,  // Your Gmail address
-            to: "mostafawaseem88@gmail.com", // Recipient's email address
+            from: "mostafawaseem22@gmail.com",  // Your Gmail address
+            to: doctor.email, // Recipient's email address
             subject: `${doctor.username} Has Accepted To Sart Work`,              // Subject of the email
             text: `
             HI My Name Is: ${doctor.username}, 
@@ -105,8 +105,8 @@ router.post('/disagreedoctor/:doctorid', async (req, res) => {
             return res.status(404).send("Doctor not found");
         }
         const mailOptions = {
-            from: email,  // Your Gmail address
-            to: "mostafawaseem88@gmail.com", // Recipient's email address
+            from: "mostafawaseem22@gmail.com",  // Your Gmail address
+            to: admin.doctors[doctorIndex].email, // Recipient's email address
             subject: `${admin.doctors[doctorIndex].username} Has Denied To Sart Work`,              // Subject of the email
             text: `
             HI My Name Is: ${admin.doctors[doctorIndex].username}, 
@@ -189,8 +189,8 @@ router.post("/acceptappoiment/:doctorid/:appoimentid", async (req, res) => {
         doctor.waitingappoiments.splice(patientIndex, 1);
         doctor.appoiments.push(patient);
         const mailOptions = {
-            from: email,  // Your Gmail address
-            to: "mostafawaseem88@gmail.com", // Recipient's email address
+            from: doctor.email,  // Your Gmail address
+            to: patient.email, // Recipient's email address
             subject: "Doctor Has Accepted Your Appoinment Book",              // Subject of the email
             text: `
             HI My Name Is: ${patient.username}, 
@@ -251,4 +251,29 @@ router.get("/admin", async (req, res) => {
         return res.status(500).send("Error while getingadmin as done: " + e.message);
     }
 });
+
+router.post("/donepatient/:doctorId/:patientId" ,async(req,res)=> {
+    try {
+        const { doctorId,patientId } = req.params();
+        if(!doctorId,!patientId) {
+            return res.status(404).send("Error: Field To Foud requierd Data ('doctorId,patientId')");
+        }
+        const doctor = DoctorSchema.findById(doctorId);
+        if(!doctor)  {
+            return res.status(404).send("Error: Field To Foud A Doctor With That Doctor id");
+        } 
+        const Mypatient = DoctorSchema.findById(patientId);
+        if(!patient) {
+            return res.status(404).send("Error: Field To Foud A Patient With That Patient id");
+        }
+        const patientIndex = doctor.appoiments.findIndex(patient => patient === Mypatient);
+        doctor.appoiments.splice(patientIndex, 1);
+        await doctor.save();
+        return res.status(201).send("Appointment Doned by the doctor Succ");
+    }catch(e) {
+        return res.status(500).send("Error While Done The Patient" , e)
+    }
+    
+})
+
 module.exports = router;

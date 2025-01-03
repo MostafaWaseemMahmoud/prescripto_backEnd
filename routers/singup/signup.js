@@ -80,7 +80,7 @@ router.post('/doctor', upload.single('profilePic'), async (req, res) => {
       
       // Validate if all fields are present
       if (!username || !email || !job || !phonenumber || !password || !age || !profilePicUrl || !appoimentprise || !about || !locatoin) {
-        return res.status(400).send("Missing required fields: username, email, job, phonenumber, password, age, profilePic");
+        return res.status(400).send("Missing required fields: username, email, job, phonenumber, password, age, profilePic, locatoin");
       }
   
       // Create a new Doctor object and save it to the database
