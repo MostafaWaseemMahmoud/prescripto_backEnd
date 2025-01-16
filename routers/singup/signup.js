@@ -76,10 +76,10 @@ router.post('/doctor', upload.single('profilePic'), async (req, res) => {
       const { username, email, job, phonenumber, password, age,appoimentprise,about,locatoin } = req.body;
       
       // Check if a file was uploaded
-      const profilePicUrl = req.file ? req.file.path : 'https://example.com/default-profile-pic.jpg';
+      const profilePic = req.file ? req.file.path : 'https://example.com/default-profile-pic.jpg';
       
       // Validate if all fields are present
-      if (!username || !email || !job || !phonenumber || !password || !age || !profilePicUrl || !appoimentprise || !about || !locatoin) {
+      if (!username || !email || !job || !phonenumber || !password || !age || !profilePic || !appoimentprise || !about || !locatoin) {
         return res.status(400).send("Missing required fields: username, email, job, phonenumber, password, age, profilePic, locatoin");
       }
   
@@ -91,7 +91,7 @@ router.post('/doctor', upload.single('profilePic'), async (req, res) => {
         phonenumber,
         password,
         age,
-        profilepic: profilePicUrl,
+        profilepic: profilePic,
         appoiments: [],
         Isonline: false,
         appoimentPrise: appoimentprise,

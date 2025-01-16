@@ -72,7 +72,7 @@ router.post('/acceptdoctor/:doctorid', async (req, res) => {
             The Admin "Mostafa Waseem" Has Accepted You
             You To Start Work As A Doctor In Prescripto Web System
             ----------------------------------
-            Please Go And Create A Doctor Account With The Same Data You Created
+            Please Go And Join As Already Exist Doctor Account With The Same Data You Created
             ----------------------------------
             And Remind That We All Here Want The Patient Be Better
             `,
