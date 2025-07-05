@@ -10,6 +10,7 @@ const pageSchema = require("./models/page.model");
 // Add Environment Variables -->
 const environments = {
     port: process.env.PORT || 9000, // Corrected to use process.env
+        mongoUri: 'mongodb+srv://mostafawaseem22:cKfpbcSwNadMl5Tv@cluster0.dbirg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 };
 
 // Activate Libraries -->
@@ -36,7 +37,7 @@ app.get("/", async (req, res) => {
         await page.save()
         res.status(201).send("Server Working Successfully And Page Added Successfully");
         console.log("Server Working Successfully And Page Added Successfully HI");
-        
+
     }catch(e) {
         res.send("Error while adding Page data" , e);
     }
@@ -47,12 +48,14 @@ app.use('/mng', mng);
 app.use('/def', page);
 
 // Run The Server
-app.listen(environments.port, () => {
-    mongoose.connect('mongodb+srv://mostafawaseem22:cKfpbcSwNadMl5Tv@cluster0.dbirg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0').then(() => {
-        console.log("Database Connected Successfully!");
-    }).then(() => {
-        console.log("Application Running On Port ---> " + environments.port);
-    }).catch((e) => {
-        console.log("Error Connecting Database:", e);
+mongoose.connect(environments.mongoUri)
+    .then(() => {
+        console.log("✅ Database Connected Successfully!");
+
+        app.listen(environments.port, () => {
+            console.log(`🚀 Application Running On Port ---> ${environments.port}`);
+        });
+    })
+    .catch((e) => {
+        console.error("❌ Error Connecting Database:", e);
     });
-});
